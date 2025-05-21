@@ -1,4 +1,5 @@
 using Expense_Tracker.Models;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,11 @@ builder.Services.AddControllersWithViews();
 //DI
 builder.Services.AddDbContext<ApplicationDbContext>(options => 
 options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+//Dataprotection
+var webRootPath = builder.Environment.WebRootPath;
+builder.Services.AddDataProtection()
+    .PersistKeysToFileSystem(new DirectoryInfo(webRootPath));
 
 //Syncfusion license
 Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Mgo+DSMBMAY9C3t2VVhhQlFac1pJXGFWfVJpTGpQdk5xdV9DaVZUTWY/P1ZhSXxRdkNjWn9edHNRRmZYWEM=");
